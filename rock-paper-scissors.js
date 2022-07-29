@@ -85,13 +85,13 @@ let ties = 0
 let result = "";
 
 const buttons = document.querySelectorAll('button');
-const resultsDisplay = document.querySelector('div#results');
-const scores = document.querySelector('.scores');
-const playerScore = document.querySelector('div#playerScore');
-const cpuScore = document.querySelector('div#cpuScore');
-const tieScore = document.querySelector('div#tieScore');
+const resultsDisplay = document.querySelector('#results');
+const scoreboard = document.querySelector('.scoreboard');
+const playerScore = document.querySelector('#playerScore');
+const cpuScore = document.querySelector('#cpuScore');
+const tieScore = document.querySelector('#tieScore');
 
-const winner = document.createElement('div');
+const winner = document.createElement('p');
 const replayButton = document.createElement('button');
 replayButton.textContent = "Replay?";
 
@@ -114,16 +114,16 @@ function playerChose(e) {
 
     if (wins === 5) {
         winner.textContent = "You Win!";
-        scores.appendChild(winner);
+        scoreboard.appendChild(winner);
         buttons.forEach(button => button.removeEventListener('click', playerChose));
-        scores.appendChild(replayButton);
+        scoreboard.appendChild(replayButton);
     }
     
     if (losses === 5) {
         winner.textContent = "You Lose!";
-        scores.appendChild(winner);
+        scoreboard.appendChild(winner);
         buttons.forEach(button => button.removeEventListener('click', playerChose));
-        scores.appendChild(replayButton);
+        scoreboard.appendChild(replayButton);
     }
 }
 
