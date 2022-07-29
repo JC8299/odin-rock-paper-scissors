@@ -43,6 +43,8 @@ function rpsRound(playerSelection, computerSelection) {
     }
 }
 
+// Old logic for playing the game in the console
+// Will no longer be used
 function game() {
     let playerChoice = "";
     let wins = 0;
@@ -76,3 +78,71 @@ function game() {
 
     console.log("Wins: " + wins + "\nLosses: " + losses + "\nTies: " + ties);
 }
+
+let wins = 0;
+let losses = 0;
+let ties = 0
+let result = "";
+
+const buttons = document.querySelectorAll('button');
+const resultsDisplay = document.querySelector('div#results');
+const scores = document.querySelector('.scores');
+const playerScore = document.querySelector('div#playerScore');
+const cpuScore = document.querySelector('div#cpuScore');
+const tieScore = document.querySelector('div#tieScore');
+
+const winner = document.createElement('div');
+const replayButton = document.createElement('button');
+replayButton.textContent = "Replay?";
+
+function playerChose(e) {
+    let playerChoice = e.target.textContent;
+    result = rpsRound(playerChoice, getComputerChoice());
+    resultsDisplay.textContent = result;
+
+    switch(result.slice(4, 5)) {
+        case "W":
+            playerScore.textContent = `You = ${++wins}`;
+            break;
+        case "L":
+            cpuScore.textContent = `CPU = ${++losses}`;
+            break;
+        case "T":
+            tieScore.textContent = `Ties = ${++ties}`;
+            break;
+    }
+
+    if (wins === 5) {
+        winner.textContent = "You Win!";
+        scores.appendChild(winner);
+        buttons.forEach(button => button.removeEventListener('click', playerChose));
+        scores.appendChild(replayButton);
+    }
+    
+    if (losses === 5) {
+        winner.textContent = "You Lose!";
+        scores.appendChild(winner);
+        buttons.forEach(button => button.removeEventListener('click', playerChose));
+        scores.appendChild(replayButton);
+    }
+}
+
+function replay(e) {
+    winner.remove();
+
+    wins = 0;
+    ties = 0;
+    losses = 0;
+
+    playerScore.textContent = 'You = 0';
+    cpuScore.textContent = 'CPU = 0';
+    tieScore.textContent = 'Ties = 0';
+
+    resultsDisplay.textContent = 'Choose a hand';
+    buttons.forEach(button => button.addEventListener('click', playerChose));
+    replayButton.remove();
+
+}
+
+buttons.forEach(button => button.addEventListener('click', playerChose));
+replayButton.addEventListener('click', replay);
